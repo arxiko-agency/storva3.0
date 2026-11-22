@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1794963299167,
+      "tag": "0000_storva_base_schema",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1794963814178,
+      "tag": "0001_modules_7_to_15",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794967000000,
+      "tag": "0002_ai_price_suggestion_tool",
+      "breakpoints": true
+    }
+  ]
+}

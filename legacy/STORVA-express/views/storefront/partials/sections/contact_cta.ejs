@@ -1,0 +1,8 @@
+<% if (store.whatsappNumber && showWhatsapp) { %>
+<section class="sf-sec sf-wrap" id="<%= sec.id %>">
+  <div class="sf-cta">
+    <div><h2><%= s.heading %></h2><% if (s.subtext) { %><p><%= s.subtext %></p><% } %></div>
+    <a class="sf-btn sf-btn-wa" href="<%= waLink('Hi! I have a question before ordering.') %>" target="_blank" rel="noopener"><%= s.buttonText || 'Chat on WhatsApp' %></a>
+  </div>
+</section>
+<% } %>

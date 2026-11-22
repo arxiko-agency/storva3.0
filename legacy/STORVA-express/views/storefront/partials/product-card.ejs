@@ -1,0 +1,10 @@
+<a class="sf-card" href="/store/<%= store.slug %>/product/<%= p.slug %>">
+  <span class="sf-card-img">
+    <% if (p.images[0]) { %><img src="<%= p.images[0].url %>" alt="<%= p.images[0].alt || p.title %>" loading="lazy" decoding="async"><% } else { %><span class="sf-noimg" aria-hidden="true"><%= p.title.charAt(0).toUpperCase() %></span><% } %>
+    <% if (!p.inStock) { %><span class="sf-tag">Sold out</span><% } else if (p.compareAtPrice && p.compareAtPrice > p.price) { %><span class="sf-tag sale">Sale</span><% } %>
+  </span>
+  <span class="sf-card-body">
+    <span class="sf-card-title"><%= p.title %></span>
+    <span class="sf-price"><% if (p.hasVariants && p.priceFrom !== p.price) { %><span class="muted">From </span><% } %><b><%= money(p.priceFrom) %></b><% if (p.compareAtPrice && p.compareAtPrice > p.price && !p.hasVariants) { %> <s class="muted"><%= money(p.compareAtPrice) %></s><% } %></span>
+  </span>
+</a>

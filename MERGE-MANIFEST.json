@@ -1,0 +1,20 @@
+{
+  "project_root": "STORVA-FINAL-MERGED-PROJECT-fixed",
+  "base": "files.zip -> STORVA-part2-features.zip",
+  "merge_order": [
+    "STORVA-part3-storytelling.zip",
+    "STORVA-part3-storytelling-v2.zip",
+    "STORVA-homepage-parts4-5-complete.zip"
+  ],
+  "duplicate_resolution": {
+    "src/components/story-flow.tsx": "STORVA-part3-storytelling-v2.zip and STORVA-homepage-parts4-5-complete.zip are identical; retained that version",
+    "src/styles.css": "retained STORVA-homepage-parts4-5-complete.zip version (latest supplied)",
+    "src/routes/index.tsx": "retained STORVA-homepage-parts4-5-complete.zip version (latest supplied)",
+    "src/components/public-content.tsx": "retained STORVA-homepage-parts4-5-complete.zip version (latest supplied)",
+    "src/components/public-shell.tsx": "retained STORVA-homepage-parts4-5-complete.zip version"
+  },
+  "source_archive_count": 4,
+  "project_file_count_excluding_source_inputs": 535,
+  "total_file_count_including_source_inputs": 539,
+  "note": "Files were merged by path. Where the same path occurred in multiple parts, the later supplied part was retained; originals are preserved under _source-inputs. No code content was intentionally edited."
+}

@@ -1,0 +1,10 @@
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+<div class="sf-wrap">
+  <h1>Checkout</h1>
+  <div id="checkout-root" class="sf-checkout-layout" data-online="<%= onlinePayments ? 1 : 0 %>">
+    <p class="muted" id="checkout-loading">Loading…</p>
+    <noscript><p class="err">Please enable JavaScript to place an order.</p></noscript>
+  </div>
+</div>
+<%- include('partials/footer') %>

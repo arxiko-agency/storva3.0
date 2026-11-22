@@ -1,0 +1,82 @@
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+<%
+  var online = order.paymentMethod === 'razorpay', ps = order.paymentStatus, cancelled = order.status === 'cancelled';
+  // look: ok (placed / paid), wait (online payment not finished), bad (online payment failed), info (refunded or cancelled)
+  var look = cancelled || ps === 'refunded' ? 'info' : !online || ps === 'paid' ? 'ok' : ps === 'failed' ? 'bad' : 'wait';
+  var payLabel = !online ? 'Cash on delivery (' + ps + ')' : ps === 'paid' ? 'Paid online' : ps === 'failed' ? 'Online payment failed' : ps === 'refunded' ? 'Refunded' : 'Online payment pending';
+  var icon = look === 'ok' ? '✓' : look === 'bad' ? '!' : look === 'wait' ? '…' : 'i';
+  var first = order.customer.name.split(' ')[0];
+  var paidOn = order.paidAt ? new Date(order.paidAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Kolkata' }) : '';
+%>
+<div class="sf-wrap sf-narrow">
+  <div class="sf-ok sf-ok-<%= look %>">
+    <div class="sf-check" aria-hidden="true"><%= icon %></div>
+    <% if (cancelled) { %>
+    <h1>Order #<%= order.orderNumber %> was cancelled</h1>
+    <% var rs = order.refundState || 'none'; %>
+    <% if (online && rs === 'processed') { %><p>Your payment of <b><%= money(order.total) %></b> has been refunded to your original payment method. It can take 5–7 working days to show up.</p>
+    <% } else if (online && rs === 'in_progress') { %><p>Your refund is on its way. It has been started with the payment provider and can take 5–7 working days to show up. This page will update when it completes.</p>
+    <% } else if (online && rs === 'partial') { %><p>A partial refund has been processed. <%= store.name %> will arrange the rest.</p>
+    <% } else if (online && rs === 'attention') { %><p>Your refund needs a little extra attention. <%= store.name %> has been alerted and will arrange it with you directly.</p>
+    <% } else if (online && (ps === 'paid' || ps === 'refunded')) { %><p>Please contact <%= store.name %> about your refund.</p>
+    <% } else { %><p>Contact <%= store.name %> if you have any questions.</p><% } %>
+    <% } else if (look === 'ok') { %>
+    <h1><%= online ? 'Payment received' : 'Thank you' %>, <%= first %>!</h1>
+    <p>Your order <b>#<%= order.orderNumber %></b> has been placed. <%= store.name %> will contact you on <b>+<%= order.customer.phone.slice(0, 2) %> <%= order.customer.phone.slice(2) %></b> to confirm.</p>
+    <% } else if (look === 'wait') { %>
+    <h1>Almost there, <%= first %></h1>
+    <p>Your order <b>#<%= order.orderNumber %></b> is saved, but we have not received your payment yet.</p>
+    <% } else if (look === 'bad') { %>
+    <h1>Payment did not go through</h1>
+    <p>Your order <b>#<%= order.orderNumber %></b> is saved but not paid. You can try again below.</p>
+    <% } else { %>
+    <h1>Order #<%= order.orderNumber %> was refunded</h1>
+    <p>The amount has been returned to your original payment method. It can take a few days to show up.</p>
+    <% } %>
+    <p class="muted">Status: <b class="sf-status s-<%= order.status %>"><%= order.status %></b> · Payment: <b class="sf-pay s-<%= ps %>"><%= payLabel %></b><% if (online && ps === 'paid' && paidOn) { %> <span class="small">(<%= money(order.total) %> on <%= paidOn %>)</span><% } %></p>
+    <% if (order.invoiceNumber) { %><p class="small"><a href="/store/<%= store.slug %>/order/<%= order.orderNumber %>/invoice?t=<%= token %>" target="_blank" rel="noopener">Download invoice <%= order.invoiceNumber %></a></p><% } %>
+    <% if (order.shipment && !cancelled) { var safeTrack = /^https?:\/\//i.test(order.shipment.trackingUrl || '') ? order.shipment.trackingUrl : ''; %>
+    <p class="sf-track">🚚 Shipped<% if (order.shipment.carrier) { %> with <b><%= order.shipment.carrier %></b><% } %><% if (order.shipment.trackingNumber) { %> · Tracking number <b><%= order.shipment.trackingNumber %></b><% } %><% if (safeTrack) { %> · <a href="<%= safeTrack %>" target="_blank" rel="noopener nofollow">Track your parcel</a><% } %></p>
+    <% } %>
+  </div>
+  <% if (online) { %>
+  <section class="<%= !cancelled && (ps === 'pending' || ps === 'failed') ? 'sf-box sf-payb' : 'sf-payb-quiet' %>" id="pay-box" data-order="<%= order.orderNumber %>" data-state="<%= ps %>">
+    <p id="pay-msg" class="sf-paymsg" role="status" aria-live="polite"></p>
+    <% if (!cancelled && (ps === 'pending' || ps === 'failed')) { %>
+    <div class="sf-pay-actions">
+      <button type="button" id="pay-now" class="sf-btn sf-btn-p"><%= ps === 'failed' ? 'Try payment again' : 'Pay ' + money(order.total) + ' now' %></button>
+      <button type="button" id="pay-refresh" class="sf-btn sf-btn-g">I have already paid. Check status</button>
+    </div>
+    <p class="muted small">Paid but this page still says pending? Banks can take a minute. If money was deducted please do not pay again. Use the check button above, or message the store.</p>
+    <% } %>
+  </section>
+  <% } %>
+  <section class="sf-box">
+    <h2>Items</h2>
+    <% order.items.forEach(function (i) { %>
+    <div class="sf-line">
+      <span class="sf-thumb-s"><% if (i.image) { %><img src="<%= i.image %>" alt="" loading="lazy"><% } %></span>
+      <span class="grow"><b><%= i.title %></b><% if (i.variantLabel) { %><br><span class="muted small"><%= i.variantLabel %></span><% } %><br><span class="muted small"><%= money(i.unitPrice) %> × <%= i.qty %></span></span>
+      <b><%= money(i.lineTotal) %></b>
+    </div>
+    <% }) %>
+    <dl class="sf-sum">
+      <div><dt>Subtotal</dt><dd><%= money(order.subtotal) %></dd></div>
+      <% if (order.discount > 0) { %><div><dt>Discount<%= order.couponCode ? ' (' + order.couponCode + ')' : '' %></dt><dd>−<%= money(order.discount) %></dd></div><% } %>
+      <div><dt>Shipping</dt><dd><%= order.shipping > 0 ? money(order.shipping) : 'Free' %></dd></div>
+      <% if (order.codFee > 0) { %><div><dt>Cash on delivery fee</dt><dd><%= money(order.codFee) %></dd></div><% } %>
+      <% if (order.tax > 0 && !order.taxInclusive) { %><div><dt>GST</dt><dd><%= money(order.tax) %></dd></div><% } %>
+      <div class="tot"><dt>Total</dt><dd><%= money(order.total) %></dd></div>
+      <% if (order.tax > 0 && order.taxInclusive) { %><div class="small muted"><dt>Includes GST</dt><dd><%= money(order.tax) %></dd></div><% } %>
+    </dl>
+  </section>
+  <section class="sf-box">
+    <h2>Delivery address</h2>
+    <p><%= order.shippingAddress.line1 %><% if (order.shippingAddress.line2) { %>, <%= order.shippingAddress.line2 %><% } %><br><%= order.shippingAddress.city %>, <%= order.shippingAddress.state %> – <%= order.shippingAddress.pincode %></p>
+    <% if (order.note) { %><p class="muted">Note: <%= order.note %></p><% } %>
+  </section>
+  <p><a class="sf-btn sf-btn-p" href="/store/<%= store.slug %>">Continue shopping</a>
+  <% if (store.whatsappNumber) { %> <a class="sf-btn sf-btn-wa" href="<%= waLink('Hi! About my order #' + order.orderNumber) %>" target="_blank" rel="noopener">Message the store</a><% } %></p>
+</div>
+<%- include('partials/footer') %>

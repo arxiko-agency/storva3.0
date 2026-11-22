@@ -1,0 +1,19 @@
+<header class="sf-top">
+  <div class="sf-wrap sf-top-in">
+    <a class="sf-brand" href="/store/<%= store.slug %>" aria-label="<%= store.name %> home">
+      <% if (store.logoUrl) { %><img class="sf-logo" src="<%= store.logoUrl %>" alt="" width="40" height="40"><% } else { %><span class="sf-logo sf-logo-ph" aria-hidden="true"><%= store.name.charAt(0).toUpperCase() %></span><% } %>
+      <span class="sf-name"><%= store.name %></span>
+    </a>
+    <% if (!locals.design || design.layout.showSearch !== false) { %>
+    <form class="sf-search" action="/store/<%= store.slug %>" method="get" role="search">
+      <label class="sr" for="sf-q">Search products</label>
+      <input id="sf-q" name="q" type="search" placeholder="Search products" maxlength="80" value="<%= locals.query ? query.q : '' %>">
+    </form>
+    <% } %>
+    <a class="sf-cart" href="/store/<%= store.slug %>/cart" aria-label="Cart">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M7 18a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm10 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4ZM3 2v2h2l3.6 7.6-1.4 2.4A2 2 0 0 0 9 17h11v-2H9.4l1.1-2h7.5a2 2 0 0 0 1.7-1l3.6-6.5A1 1 0 0 0 22.4 4H6.2l-.9-2H3Z"/></svg>
+      <span class="sf-count" data-cart-count hidden>0</span>
+    </a>
+  </div>
+</header>
+<main id="main">

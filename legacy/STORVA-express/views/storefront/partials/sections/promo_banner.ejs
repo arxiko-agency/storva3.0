@@ -1,0 +1,11 @@
+<section class="sf-sec sf-wrap" id="<%= sec.id %>">
+  <div class="sf-promo<%= s.imageUrl ? ' has-img' : '' %>">
+    <div class="sf-promo-copy">
+      <% if (s.badge) { %><span class="sf-badge"><%= s.badge %></span><% } %>
+      <% if (s.heading) { %><h2><%= s.heading %></h2><% } %>
+      <% if (s.subtext) { %><p><%= s.subtext %></p><% } %>
+      <% if (s.ctaText) { %><a class="sf-btn sf-btn-p" href="<%= s.ctaHref || '#catalog' %>"><%= s.ctaText %></a><% } %>
+    </div>
+    <% if (s.imageUrl) { %><img src="<%= s.imageUrl %>" alt="" loading="lazy" decoding="async"><% } %>
+  </div>
+</section>

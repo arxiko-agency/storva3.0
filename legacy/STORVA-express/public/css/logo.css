@@ -1,0 +1,9 @@
+/* STORVA logo. The uploaded PNG (577x433) is used untouched; it has transparent margins, so the box below
+   shows only the artwork area (x154 y177 w270 h67) by positioning the full image inside an overflow:hidden frame.
+   The wordmark is white, so on light backgrounds the logo sits on a dark brand badge (.brand-logo). */
+.brand-logo{display:inline-flex;align-items:center;flex:none;line-height:0;text-decoration:none}
+.brand-logo .logo-frame{position:relative;display:block;overflow:hidden;width:132px;aspect-ratio:270/67}
+.brand-logo img{position:absolute;display:block;max-width:none;height:auto;width:213.7037%;left:-57.037%;top:-264.179%;image-rendering:auto;user-select:none;-webkit-user-drag:none}
+.brand-logo.badge{background:#14122B;border-radius:.9rem;padding:.5rem .75rem}
+@media (min-width:768px){.brand-logo .logo-frame{width:156px}}
+@media (min-width:1024px){.brand-logo.lg-large .logo-frame{width:176px}}

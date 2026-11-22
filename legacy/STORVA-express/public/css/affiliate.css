@@ -1,0 +1,7 @@
+/* Affiliate page. Built on dashboard.css (cards, .stat, .badge, .vt tables). */
+.af-hero{background:#1c1917;color:#fff;border-radius:14px;padding:22px 18px;margin-bottom:16px}.af-hero h1{margin:0 0 8px;font-size:24px}.af-hero p{margin:0;color:#d6d3d1}
+.af-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:12px 0}.af-step{border:1px solid #e7e0d6;border-radius:12px;padding:12px;background:#fff}.af-step b{display:block;margin-bottom:4px}
+.af-link{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.af-link input{flex:1;min-width:220px;font-family:ui-monospace,monospace;background:#faf7f2}.af-link button{width:auto;margin:0;padding:10px 16px}
+.af-facts{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 0;padding:0;list-style:none}.af-facts li{background:#f0ebe3;border-radius:99px;padding:4px 12px;font-size:13px}
+.badge.af-payable,.badge.af-converted,.badge.af-paid{background:#dcfce7;color:#166534}.badge.af-pending,.badge.af-signed_up{background:#fef3c7;color:#92400e}.badge.af-void{background:#fee2e2;color:#991b1b}
+.af-funnel{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}.af-funnel .stat b{font-size:22px}

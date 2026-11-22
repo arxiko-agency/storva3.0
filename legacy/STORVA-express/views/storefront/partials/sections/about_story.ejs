@@ -1,0 +1,8 @@
+<% var bodyText = s.body || store.description; if (bodyText || s.imageUrl) { %>
+<section class="sf-sec sf-wrap" id="<%= sec.id %>">
+  <div class="sf-story<%= s.imageUrl ? ' has-img' : '' %>">
+    <% if (s.imageUrl) { %><img src="<%= s.imageUrl %>" alt="" loading="lazy" decoding="async"><% } %>
+    <div><h2 class="sf-sec-title"><%= s.title %></h2><% if (bodyText) { %><p class="sf-story-body"><%= bodyText %></p><% } %></div>
+  </div>
+</section>
+<% } %>

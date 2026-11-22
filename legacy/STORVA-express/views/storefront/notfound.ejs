@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title><%= title %> · <%= brand %></title><meta name="robots" content="noindex">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/storefront.css"><link rel="stylesheet" href="/css/logo.css"><link rel="icon" href="/favicon.ico" sizes="any">
+</head><body>
+<main class="sf-wrap sf-nf">
+  <a class="brand-logo badge" href="/" aria-label="<%= brand %> home"><span class="logo-frame"><img src="/images/storva-logo.png" alt="<%= brand %>" width="577" height="433"></span></a>
+  <h1><%= title %></h1>
+  <p class="muted"><%= locals.message || 'The page you are looking for does not exist or is no longer available.' %></p>
+  <% if (locals.backTo) { %><a class="sf-btn sf-btn-p" href="<%= backTo %>">Back to the store</a><% } else { %><a class="sf-btn sf-btn-p" href="/">Go to <%= brand %></a><% } %>
+</main>
+</body></html>

@@ -1,0 +1,15 @@
+<section class="sf-hero sf-sec" id="<%= sec.id %>"<% if (s.bannerImageUrl) { %> data-has-banner="1"<% } %>>
+  <% if (s.bannerImageUrl) { %><img class="sf-hero-banner" src="<%= s.bannerImageUrl %>" alt="" fetchpriority="high" decoding="async"><% } %>
+  <div class="sf-wrap sf-hero-in">
+    <% if (store.logoUrl) { %><img class="sf-hero-logo" src="<%= store.logoUrl %>" alt="<%= store.name %> logo" width="88" height="88"><% } %>
+    <div class="sf-hero-copy">
+      <h1><%= s.heading || store.name %></h1>
+      <% var sub = s.subheading || store.tagline; if (sub) { %><p class="sf-tagline"><%= sub %></p><% } %>
+      <% if (store.description && !s.subheading) { %><p class="sf-about"><%= store.description %></p><% } %>
+      <div class="sf-hero-actions">
+        <% if (s.ctaText) { %><a class="sf-btn sf-btn-p" href="<%= s.ctaHref && s.ctaHref.charAt(0) === '/' ? s.ctaHref : (s.ctaHref || '#catalog') %>"><%= s.ctaText %></a><% } %>
+        <% if (s.showWhatsapp && store.whatsappNumber && showWhatsapp) { %><a class="sf-btn sf-btn-wa" href="<%= waLink('Hi! I would like to know more about your products.') %>" target="_blank" rel="noopener">Chat on WhatsApp</a><% } %>
+      </div>
+    </div>
+  </div>
+</section>

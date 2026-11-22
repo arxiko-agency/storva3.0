@@ -1,0 +1,8 @@
+<section class="sf-sec sf-wrap" id="<%= sec.id %>">
+  <% if (s.title) { %><h2 class="sf-sec-title"><%= s.title %></h2><% } %>
+  <ul class="sf-trust">
+    <% [[s.item1Title, s.item1Text, '🚚'], [s.item2Title, s.item2Text, '🔒'], [s.item3Title, s.item3Text, '💬']].forEach(function (it) { if (!it[0] && !it[1]) return; %>
+    <li><span class="sf-trust-ico" aria-hidden="true"><%= it[2] %></span><b><%= it[0] %></b><span class="muted"><%= it[1] %></span></li>
+    <% }) %>
+  </ul>
+</section>

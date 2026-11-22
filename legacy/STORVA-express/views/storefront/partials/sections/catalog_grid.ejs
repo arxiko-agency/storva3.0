@@ -1,0 +1,37 @@
+<section class="sf-sec sf-wrap" id="catalog">
+  <% if (s.title && !browsing) { %><h2 class="sf-sec-title"><%= s.title %></h2><% } %>
+  <form class="sf-toolbar" action="/store/<%= store.slug %>#catalog" method="get">
+    <% if (query.collection) { %><input type="hidden" name="collection" value="<%= query.collection %>"><% } %>
+    <% if (query.q) { %><input type="hidden" name="q" value="<%= query.q %>"><% } %>
+    <span class="muted"><%= list.total %> product<%= list.total === 1 ? '' : 's' %><%= query.q ? ' for “' + query.q + '”' : '' %></span>
+    <% if (s.showSort !== false) { %>
+    <label class="sr" for="sf-sort">Sort by</label>
+    <select id="sf-sort" name="sort" data-autosubmit>
+      <option value="newest"<%= query.sort === 'newest' ? ' selected' : '' %>>Newest</option>
+      <option value="price_asc"<%= query.sort === 'price_asc' ? ' selected' : '' %>>Price: low to high</option>
+      <option value="price_desc"<%= query.sort === 'price_desc' ? ' selected' : '' %>>Price: high to low</option>
+      <option value="title"<%= query.sort === 'title' ? ' selected' : '' %>>Name A–Z</option>
+    </select>
+    <noscript><button class="sf-btn" type="submit">Apply</button></noscript>
+    <% } %>
+  </form>
+  <% if (!list.products.length) { %>
+    <div class="sf-empty">
+      <h2><%= query.q || query.collection ? 'No products found' : 'This store has no products yet' %></h2>
+      <p class="muted"><%= query.q || query.collection ? 'Try a different search or collection.' : 'Please check back soon.' %></p>
+      <% if (query.q || query.collection) { %><a class="sf-btn" href="/store/<%= store.slug %>">See all products</a><% } %>
+    </div>
+  <% } else { %>
+    <div class="sf-grid">
+      <% list.products.forEach(function (p) { %><%- include('../product-card', { p: p }) %><% }) %>
+    </div>
+    <% if (list.pages > 1) { %>
+    <% var qs = function (n) { var o = []; if (query.collection) o.push('collection=' + encodeURIComponent(query.collection)); if (query.q) o.push('q=' + encodeURIComponent(query.q)); if (query.sort !== 'newest') o.push('sort=' + query.sort); o.push('page=' + n); return '?' + o.join('&'); }; %>
+    <nav class="sf-pager" aria-label="Pages">
+      <% if (list.page > 1) { %><a class="sf-btn sf-btn-g" href="/store/<%= store.slug %><%= qs(list.page - 1) %>">← Previous</a><% } else { %><span></span><% } %>
+      <span class="muted">Page <%= list.page %> of <%= list.pages %></span>
+      <% if (list.page < list.pages) { %><a class="sf-btn sf-btn-g" href="/store/<%= store.slug %><%= qs(list.page + 1) %>">Next →</a><% } else { %><span></span><% } %>
+    </nav>
+    <% } %>
+  <% } %>
+</section>

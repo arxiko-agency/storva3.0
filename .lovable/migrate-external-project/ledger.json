@@ -1,0 +1,117 @@
+{
+  "source": "code-archive: storva-full-project.zip (Lovable TanStack Start + Lovable Cloud project 'storva-code-scout')",
+  "capabilities": [
+    {
+      "capability": "application code",
+      "source": "src/",
+      "outcome": "migrate",
+      "status": "verified",
+      "next_action": "copy source into project, keep template-pinned TanStack versions"
+    },
+    {
+      "capability": "schema",
+      "source": "database/schema.sql + drizzle/migrations",
+      "outcome": "migrate",
+      "status": "verified",
+      "next_action": "recreate 15 tables, functions, triggers, RLS, grants in Lovable Cloud"
+    },
+    {
+      "capability": "records",
+      "source": "none attached",
+      "outcome": "migrate",
+      "status": "pending",
+      "next_action": "request CSV/JSON exports of application tables after preview"
+    },
+    {
+      "capability": "plan seed data",
+      "source": "0000_seed_plans.sql",
+      "outcome": "migrate",
+      "status": "verified",
+      "next_action": "seed plans in migration"
+    },
+    {
+      "capability": "auth identities",
+      "source": "Lovable Cloud auth (email/password, Google, Lovable OAuth)",
+      "outcome": "migrate",
+      "status": "pending",
+      "next_action": "request user export (ids + emails); users re-verify email and set new password"
+    },
+    {
+      "capability": "authorization",
+      "source": "RLS owner_id = auth.uid() on every table",
+      "outcome": "migrate",
+      "status": "verified",
+      "next_action": "recreate policies + grants; test isolation"
+    },
+    {
+      "capability": "uploaded file bytes",
+      "source": "products.image_path (no bucket usage found in code)",
+      "outcome": "not used",
+      "status": "new uploads verified; old files pending (none supplied)",
+      "next_action": "none"
+    },
+    {
+      "capability": "Razorpay subscriptions",
+      "source": "src/lib/razorpay.server.ts, billing.functions.ts",
+      "outcome": "preserve",
+      "status": "implemented; live test blocked on Razorpay keys",
+      "next_action": "needs RAZORPAY_KEY_ID / RAZORPAY_KEY_SECRET (not configured in source either)"
+    },
+    {
+      "capability": "Razorpay webhook",
+      "source": "/api/public/razorpay-webhook",
+      "outcome": "preserve",
+      "status": "implemented; live test blocked on Razorpay keys",
+      "next_action": "needs RAZORPAY_WEBHOOK_SECRET; register new URL in Razorpay dashboard at cutover"
+    },
+    {
+      "capability": "Gemini AI",
+      "source": "Lovable AI gateway",
+      "outcome": "preserve",
+      "status": "verified",
+      "next_action": "verify after Cloud enabled"
+    },
+    {
+      "capability": "Gmail order alerts",
+      "source": "google_mail connector",
+      "outcome": "preserve",
+      "status": "queued emails verified; actual sending not tested (needs Gmail connection / sender domain)",
+      "next_action": "reconnect Gmail connector in this project"
+    },
+    {
+      "capability": "WhatsApp Cloud API + webhook",
+      "source": "/api/public/whatsapp/webhook",
+      "outcome": "preserve",
+      "status": "implemented; live sending blocked on WhatsApp connection",
+      "next_action": "connect WhatsApp connector (was not connected in source)"
+    },
+    {
+      "capability": "schedules",
+      "source": "LOVABLE_CRON_SECRET referenced; no cron jobs exported",
+      "outcome": "migrate",
+      "status": "job created; hourly run not yet observed",
+      "next_action": "recreate any jobs added by new modules"
+    },
+    {
+      "capability": "Modules 7,12,13,14,15",
+      "source": "missing in source",
+      "outcome": "build",
+      "status": "verified",
+      "next_action": "implement and test"
+    },
+    {
+      "capability": "cutover",
+      "source": "old Lovable project",
+      "outcome": "pending",
+      "status": "pending: app not published",
+      "next_action": "update Razorpay/WhatsApp webhook URLs to new published domain"
+    },
+    {
+      "capability": "verification",
+      "source": "-",
+      "outcome": "pending",
+      "status": "automated tests pass; Razorpay, WhatsApp, email sending and existing users not verified",
+      "next_action": "tests + browser checks"
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+services:
+  - type: web
+    name: storva-saas
+    runtime: node
+    plan: starter
+    buildCommand: npm ci --omit=dev
+    startCommand: npm start
+    healthCheckPath: /api/ready
+    disk:
+      name: storva-persistent-data
+      mountPath: /var/data
+      sizeGB: 10
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: ENV_STRICT
+        value: "true"
+      - key: MONGODB_URI
+        sync: false
+      - key: APP_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: OTP_PEPPER
+        generateValue: true
+      # Razorpay (Module 6). Leave all three empty to run cash-on-delivery only. Set them in the Render dashboard (never commit them).
+      - key: RAZORPAY_KEY_ID
+        sync: false
+      - key: RAZORPAY_KEY_SECRET
+        sync: false
+      - key: RAZORPAY_WEBHOOK_SECRET
+        sync: false
+      # Auto-renew via Razorpay Subscriptions: set to true only after Razorpay activates Subscriptions for your account.
+      - key: RAZORPAY_SUBSCRIPTIONS_ENABLED
+        value: "false"
+      # OTP delivery (at least one channel is required in production). MSG91 = SMS, SMTP = email.
+      - key: MSG91_AUTH_KEY
+        sync: false
+      - key: MSG91_TEMPLATE_ID
+        sync: false
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: MAIL_FROM
+        sync: false
+      # Uploaded product images need a persistent disk in production; attach one in Render and point UPLOAD_DIR at its mount path.
+      - key: UPLOAD_DIR
+        value: /var/data/uploads
+      # Modules 8-15 (all optional; set real values in the Render dashboard)
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: WHATSAPP_TOKEN
+        sync: false
+      - key: WHATSAPP_PHONE_NUMBER_ID
+        sync: false
+      - key: WHATSAPP_VERIFY_TOKEN
+        generateValue: true
+      - key: WHATSAPP_APP_SECRET
+        sync: false
+      - key: SECRETS_KEY
+        sync: false
+      - key: PLATFORM_LEGAL_NAME
+        sync: false
+      - key: PLATFORM_GSTIN
+        sync: false
+      - key: HEALTH_TOKEN
+        generateValue: true
+      - key: ALERT_WEBHOOK_URL
+        sync: false
+      - key: RATE_LIMIT_STORE
+        value: mongo
+      - key: LOG_HTTP
+        value: json
+      - key: BACKUP_DIR
+        value: /var/data/backups
+      - key: BACKUP_KEY
+        generateValue: true
+  # Backups now run inside the app (BACKUP_KEY set => scheduled daily; see README "Production integrations"). Copy BACKUP_DIR off-site as well.
+  # The cron job below is only needed if you prefer running backups outside the web process.
+  # A cron job cannot mount the web service's disk on Render, so either run this from a machine with access or point BACKUP_DIR
+  # at storage the cron job can reach. Shown here as a template:
+  # - type: cron
+  #   name: storva-backup
+  #   runtime: node
+  #   schedule: "30 20 * * *"      # 02:00 India time
+  #   buildCommand: npm ci --omit=dev
+  #   startCommand: node scripts/backup.js

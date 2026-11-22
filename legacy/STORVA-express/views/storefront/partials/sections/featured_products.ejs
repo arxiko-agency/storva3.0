@@ -1,0 +1,6 @@
+<% if (featuredProducts.length) { %>
+<section class="sf-sec sf-wrap" id="<%= sec.id %>">
+  <div class="sf-sec-head"><div><h2 class="sf-sec-title"><%= s.title %></h2><% if (s.subtitle) { %><p class="muted"><%= s.subtitle %></p><% } %></div></div>
+  <div class="sf-grid"><% featuredProducts.forEach(function (p) { %><%- include('../product-card', { p: p }) %><% }) %></div>
+</section>
+<% } %>

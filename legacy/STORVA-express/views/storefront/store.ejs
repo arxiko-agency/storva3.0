@@ -1,0 +1,4 @@
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+<% sections.forEach(function (sec) { %><%- include('partials/sections/' + sec.type, { s: sec.settings, sec: sec }) %><% }) %>
+<%- include('partials/footer') %>

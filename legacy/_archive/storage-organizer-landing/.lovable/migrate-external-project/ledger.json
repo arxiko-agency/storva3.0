@@ -1,0 +1,17 @@
+{
+  "source": "STORVA-merged.zip",
+  "target": "Standalone STORVA source delivery; preserve the existing Express/MongoDB application and database compatibility",
+  "capabilities": [
+    { "capability": "application_code", "source": "STORVA/", "outcome": "preserve_and_patch", "status": "in_progress", "next_action": "Implement only the three requested remaining fixes" },
+    { "capability": "database_schema", "source": "Mongoose models", "outcome": "preserve_with_backward_compatible_additive_fields", "status": "in_progress", "next_action": "Add persistent identifier throttles and registration ownership/expiry metadata" },
+    { "capability": "existing_records", "source": "No record export supplied", "outcome": "not_applicable_to_source_patch", "status": "pending_external", "next_action": "No data migration requested; do not invent or alter production records" },
+    { "capability": "authentication", "source": "Existing email/phone OTP, passwords and sessions", "outcome": "preserve_and_harden_pending_registration", "status": "in_progress", "next_action": "Bind registration OTPs to their pending account and enforce expiry" },
+    { "capability": "authorization_and_tenant_isolation", "source": "requireAuth, loadOwnedStore, tenantScoped", "outcome": "preserve", "status": "pending_verification", "next_action": "Run existing isolation suites and new cancellation/refund isolation tests" },
+    { "capability": "payments", "source": "Razorpay service, webhook ledger, refund idempotency", "outcome": "preserve_and_add_cancellation_trigger", "status": "in_progress", "next_action": "Reuse initiateRefund and retry/reconciliation without duplicate refunds" },
+    { "capability": "notifications", "source": "Domain events and outbox", "outcome": "preserve", "status": "pending_verification", "next_action": "Verify processed-refund event notifies the buyer" },
+    { "capability": "merchant_dashboard", "source": "Orders and Payments views", "outcome": "preserve_and_expose_automatic_refund_state", "status": "in_progress", "next_action": "Show automatic cancellation refund status using the existing ledger" },
+    { "capability": "public_endpoints_and_webhooks", "source": "Express routes", "outcome": "preserve", "status": "pending_verification", "next_action": "Run existing route and webhook suites" },
+    { "capability": "scheduled_jobs", "source": "Reconciliation, abandoned-order cleanup and outbox jobs", "outcome": "preserve", "status": "pending_verification", "next_action": "Verify retry/restart recovery for pending refunds" },
+    { "capability": "storage_ai_and_external_providers", "source": "Local uploads, Gemini, MSG91, SMTP, WhatsApp", "outcome": "preserve_unchanged", "status": "not_changed", "next_action": "Keep mocked/live verification distinctions in documentation" }
+  ]
+}
